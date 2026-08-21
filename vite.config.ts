@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
     vue(),
     AutoImport({
       imports: ['vue', 'vue-router'],
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
       dts: 'src/auto-imports.d.ts',
     }),
     Components({
