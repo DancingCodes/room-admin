@@ -2,7 +2,7 @@ import { ElMessage } from 'element-plus'
 import router from '@/router'
 import { clearToken, getToken } from './auth'
 
-const apiBase = import.meta.env.VITE_API_BASE ?? 'https://room.moonc.love/api/v1/admin'
+const apiBase = import.meta.env.VITE_API_BASE ?? '/api/v1/admin'
 
 type ApiResponse<T> = {
   code: number

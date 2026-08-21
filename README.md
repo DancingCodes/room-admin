@@ -9,10 +9,11 @@ npm install
 npm run dev
 ```
 
-默认 API 地址为 `https://room.moonc.love/api/v1/admin`。本地地址通过 `.env` 覆盖：
+默认 API 地址为相对路径 `/api/v1/admin`。本地 Vite 会将 `/api/` 转发到线上 `https://room.moonc.love`；线上则由 Nginx 转发。需要改为本地或局域网后端时，通过 `.env` 覆盖：
 
 ```dotenv
-VITE_API_BASE=http://127.0.0.1:8080/api/v1/admin
+VITE_API_PROXY_TARGET=http://192.168.110.143:8080
+# VITE_API_PROXY_TARGET=http://127.0.0.1:8080
 ```
 
 后端必须设置 `ADMIN_USERNAME` 与 `ADMIN_PASSWORD`。管理员令牌仅保存在浏览器 localStorage，默认有效期为 24 小时。
