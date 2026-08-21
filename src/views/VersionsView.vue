@@ -94,9 +94,12 @@ onMounted(load)
     <header class="page-header"><div><h1>App 版本</h1><p>创建草稿，确认 APK 地址和更新说明后发布。</p></div><div class="table-actions"><el-button :icon="Refresh" :loading="loading" @click="load">刷新</el-button><el-button type="primary" :icon="Plus" @click="openCreate">新增版本</el-button></div></header>
     <section class="panel">
       <el-table v-loading="loading" :data="versions" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="82" />
         <el-table-column label="版本" width="110"><template #default="{ row }">v{{ row.version_code }}</template></el-table-column>
         <el-table-column label="状态" width="108"><template #default="{ row }"><el-tag :type="row.is_published ? 'success' : 'info'">{{ row.is_published ? '已发布' : '草稿' }}</el-tag></template></el-table-column>
         <el-table-column prop="apk_url" label="APK 地址" min-width="290" show-overflow-tooltip />
+        <el-table-column label="更新说明" min-width="250"><template #default="{ row }"><el-tooltip :content="row.release_notes" placement="top" :show-after="300"><p class="release-notes">{{ row.release_notes }}</p></el-tooltip></template></el-table-column>
+        <el-table-column label="创建时间" min-width="175"><template #default="{ row }">{{ formatTime(row.created_at) }}</template></el-table-column>
         <el-table-column label="更新时间" min-width="175"><template #default="{ row }">{{ formatTime(row.updated_at) }}</template></el-table-column>
         <el-table-column label="操作" width="210" fixed="right"><template #default="{ row }"><el-button v-if="!row.is_published" link type="primary" @click="openEdit(row)">编辑</el-button><el-button v-if="!row.is_published" link type="success" @click="publish(row)">发布</el-button><el-button v-else link type="danger" @click="unpublish(row)">下架</el-button></template></el-table-column>
       </el-table>
@@ -130,7 +133,23 @@ onMounted(load)
     .table-actions { display: flex; align-items: center; gap: 10px; }
   }
 
-  .panel { overflow: hidden; border: 1px solid #dce3de; border-radius: 6px; background: #fff; }
+  .panel {
+    overflow: hidden;
+    border: 1px solid #dce3de;
+    border-radius: 6px;
+    background: #fff;
+
+    .release-notes {
+      display: -webkit-box;
+      margin: 0;
+      overflow: hidden;
+      color: #5f6c66;
+      line-height: 1.55;
+      white-space: pre-line;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  }
 }
 
 @media (max-width: 760px) {
