@@ -10,7 +10,9 @@ const loading = ref(false)
 const dialogOpen = ref(false)
 const saving = ref(false)
 const editing = ref<AppVersion | null>(null)
-const form = reactive({ version_code: undefined as number | undefined, apk_url: '', release_notes: '' })
+const form = reactive({ version_code: undefined as number | undefined, apk_url: '', release_notes: '', status: 'draft' as 'draft' | 'published' })
+
+const nextVersionCode = computed(() => Math.max(0, ...versions.value.map((version) => version.version_code)) + 1)
 
 function formatTime(value: string) {
   return new Date(value).toLocaleString('zh-CN', { hour12: false })
@@ -30,9 +32,10 @@ async function load() {
 
 function openCreate() {
   editing.value = null
-  form.version_code = undefined
+  form.version_code = nextVersionCode.value
   form.apk_url = ''
   form.release_notes = ''
+  form.status = 'draft'
   dialogOpen.value = true
 }
 
@@ -41,6 +44,7 @@ function openEdit(version: AppVersion) {
   form.version_code = version.version_code
   form.apk_url = version.apk_url
   form.release_notes = version.release_notes
+  form.status = 'draft'
   dialogOpen.value = true
 }
 
@@ -51,10 +55,15 @@ async function save() {
   }
   saving.value = true
   try {
-    const data = { version_code: form.version_code, apk_url: form.apk_url, release_notes: form.release_notes }
+    const data = {
+      version_code: form.version_code,
+      apk_url: form.apk_url,
+      release_notes: form.release_notes,
+      is_published: form.status === 'published',
+    }
     if (editing.value) await put(`/app-versions/${editing.value.id}`, data)
     else await post('/app-versions', data)
-    ElMessage.success(editing.value ? '版本已保存' : '草稿已创建')
+    ElMessage.success(editing.value ? '版本已保存' : form.status === 'published' ? '版本已创建并发布' : '草稿已创建')
     dialogOpen.value = false
     await load()
   } catch (error) {
@@ -95,7 +104,7 @@ onMounted(load)
     <section class="panel">
       <el-table v-loading="loading" :data="versions" style="width: 100%">
         <el-table-column prop="id" label="ID" width="82" />
-        <el-table-column label="版本" width="110"><template #default="{ row }">v{{ row.version_code }}</template></el-table-column>
+        <el-table-column label="版本号" width="110"><template #default="{ row }">{{ row.version_code }}</template></el-table-column>
         <el-table-column label="状态" width="108"><template #default="{ row }"><el-tag :type="row.is_published ? 'success' : 'info'">{{ row.is_published ? '已发布' : '草稿' }}</el-tag></template></el-table-column>
         <el-table-column prop="apk_url" label="APK 地址" min-width="290" show-overflow-tooltip />
         <el-table-column label="更新说明" min-width="250"><template #default="{ row }"><el-tooltip :content="row.release_notes" placement="top" :show-after="300"><p class="release-notes">{{ row.release_notes }}</p></el-tooltip></template></el-table-column>
@@ -105,11 +114,12 @@ onMounted(load)
       </el-table>
     </section>
 
-    <el-dialog v-model="dialogOpen" :title="editing ? `编辑 v${editing.version_code}` : '新增版本'" width="min(640px, 92vw)" destroy-on-close>
+    <el-dialog v-model="dialogOpen" :title="editing ? `编辑版本号 ${editing.version_code}` : '新增版本'" width="min(640px, 92vw)" destroy-on-close>
       <el-form label-position="top">
-        <el-form-item label="版本号"><el-input-number v-model="form.version_code" :min="1" :precision="0" controls-position="right" /></el-form-item>
+        <el-form-item label="版本号"><el-input-number v-model="form.version_code" :min="editing ? 1 : nextVersionCode" :precision="0" controls-position="right" /><p v-if="!editing" class="field-hint">必须大于当前最大版本号，建议使用 {{ nextVersionCode }}。</p></el-form-item>
         <el-form-item label="APK 下载地址"><el-input v-model="form.apk_url" placeholder="https://cdn.example.com/xxx.apk" /></el-form-item>
         <el-form-item label="更新说明"><el-input v-model="form.release_notes" type="textarea" :rows="6" placeholder="每行一项更新内容" /></el-form-item>
+        <el-form-item v-if="!editing" label="状态"><el-radio-group v-model="form.status"><el-radio value="draft">草稿</el-radio><el-radio value="published">立即发布</el-radio></el-radio-group><p class="field-hint">立即发布会自动下架当前已发布版本。</p></el-form-item>
       </el-form>
       <template #footer><el-button @click="dialogOpen = false">取消</el-button><el-button type="primary" :loading="saving" @click="save">保存草稿</el-button></template>
     </el-dialog>
@@ -149,6 +159,8 @@ onMounted(load)
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
     }
+
+    .field-hint { margin: 7px 0 0; color: #78847e; font-size: 12px; line-height: 1.5; }
   }
 }
 
