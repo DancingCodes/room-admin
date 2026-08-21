@@ -79,3 +79,54 @@ onMounted(load)
     </el-drawer>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.page {
+  width: 100%;
+  max-width: 1320px;
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; }
+    p { margin: 0; color: #6c7873; font-size: 14px; }
+  }
+
+  .panel {
+    overflow: hidden;
+    border: 1px solid #dce3de;
+    border-radius: 6px;
+    background: #fff;
+
+    .owner-cell {
+      display: grid;
+      gap: 3px;
+
+      span { color: #697670; font-size: 12px; }
+    }
+
+    .pagination { padding: 18px 20px; display: flex; justify-content: flex-end; }
+  }
+}
+
+.room-detail {
+  h2 { margin: 0; font-size: 19px; }
+  .room-detail-meta { margin: 12px 0 24px; color: #64716b; font-size: 13px; line-height: 1.8; }
+
+  .member-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+  }
+}
+
+@media (max-width: 760px) {
+  .page .page-header { align-items: stretch; flex-direction: column; }
+}
+</style>

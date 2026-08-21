@@ -112,3 +112,29 @@ onMounted(load)
     </el-dialog>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.page {
+  width: 100%;
+  max-width: 1320px;
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; }
+    p { margin: 0; color: #6c7873; font-size: 14px; }
+    .table-actions { display: flex; align-items: center; gap: 10px; }
+  }
+
+  .panel { overflow: hidden; border: 1px solid #dce3de; border-radius: 6px; background: #fff; }
+}
+
+@media (max-width: 760px) {
+  .page .page-header { align-items: stretch; flex-direction: column; }
+  .table-actions { flex-wrap: wrap; }
+}
+</style>

@@ -51,3 +51,67 @@ onMounted(load)
     </section>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.page {
+  width: 100%;
+  max-width: 1320px;
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; }
+    p { margin: 0; color: #6c7873; font-size: 14px; }
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+
+    .metric {
+      min-height: 128px;
+      padding: 20px;
+      border: 1px solid #dce3de;
+      border-radius: 6px;
+      background: #fff;
+
+      &-label { color: #718078; font-size: 13px; }
+      &-value { margin-top: 15px; font-size: 32px; font-weight: 700; line-height: 1; }
+      &-value.small { font-size: 24px; }
+    }
+  }
+
+  .panel {
+    overflow: hidden;
+    border: 1px solid #dce3de;
+    border-radius: 6px;
+    background: #fff;
+
+    .panel-header {
+      min-height: 62px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5eae7;
+
+      h2 { margin: 0; font-size: 16px; }
+    }
+
+    .empty-hint { padding: 42px 20px; color: #7c8782; text-align: center; }
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    .page-header { align-items: stretch; flex-direction: column; }
+    .metrics { grid-template-columns: 1fr; }
+  }
+}
+</style>

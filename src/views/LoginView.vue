@@ -41,3 +41,35 @@ async function login() {
     </section>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #edf1ed;
+
+  .login-card {
+    width: min(100%, 390px);
+    padding: 34px;
+    border: 1px solid #dce3de;
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(23 33 33 / 8%);
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      font-size: 21px;
+      font-weight: 700;
+
+      span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 7px; background: #a8dbc8; }
+    }
+
+    :deep(.el-button) { width: 100%; }
+  }
+}
+</style>
