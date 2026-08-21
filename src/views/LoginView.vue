@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { Lock, User } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { post } from '@/services/api'
 import { setToken } from '@/services/auth'
 

@@ -1,4 +1,3 @@
-import { ElMessage } from 'element-plus'
 import router from '@/router'
 import { clearToken, getToken } from './auth'
 

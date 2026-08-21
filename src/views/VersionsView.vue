@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Plus, Refresh } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { onMounted, reactive, ref } from 'vue'
 import { get, post, put } from '@/services/api'
 import type { AppVersion } from '@/services/types'
 
@@ -160,8 +158,9 @@ onMounted(load)
       -webkit-line-clamp: 2;
     }
 
-    .field-hint { margin: 7px 0 0; color: #78847e; font-size: 12px; line-height: 1.5; }
   }
+
+  .field-hint { margin: 7px 0 0; color: #78847e; font-size: 12px; line-height: 1.5; }
 }
 
 @media (max-width: 760px) {

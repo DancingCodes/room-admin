@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { DataBoard, Files, House, SwitchButton } from '@element-plus/icons-vue'
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { clearToken } from './services/auth'
 
 const route = useRoute()

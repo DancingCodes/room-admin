@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Refresh } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { onMounted, ref } from 'vue'
 import { get } from '@/services/api'
 import type { Dashboard } from '@/services/types'
 
