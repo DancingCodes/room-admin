@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: env.VITE_API_PROXY_TARGET || 'https://room.moonc.love',
+          target: env.VITE_API_PROXY_TARGET || 'https://room.dancingcodes.cn',
           // 本地联调时可通过 VITE_API_PROXY_TARGET=http://127.0.0.1:8080 覆盖。
           changeOrigin: true,
         },
